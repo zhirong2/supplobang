@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import supplobang.dto.JwtAuthenticationResponse;
 import supplobang.dto.RefreshTokenRequest;
@@ -14,6 +15,8 @@ import supplobang.dto.SignInRequest;
 import supplobang.dto.SignUpRequest;
 import supplobang.entities.Role;
 import supplobang.entities.User;
+import supplobang.exceptions.BadCredentialException;
+import supplobang.exceptions.EmailAlreadyExistsException;
 import supplobang.repository.UserRepository;
 import supplobang.services.AuthenticationService;
 import supplobang.services.JWTService;
@@ -27,8 +30,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
+    @Override
     public User signup(SignUpRequest signUpRequest){
         
+        if(userRepository.findByEmail(signUpRequest.getEmail()).isPresent()){
+            throw new EmailAlreadyExistsException("Email already exist");
+        }
+
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
@@ -45,11 +53,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.save(user);
     }
 
-
+    @Override
     public JwtAuthenticationResponse signin(SignInRequest signInRequest){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         
-        var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+        var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new BadCredentialException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
 
@@ -60,7 +68,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return jwtAuthenticationResponse;
 
     }
-
+    
+    @Override
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
         // System.out.println(jwtService.extractUsername(refreshTokenRequest.getToken()) + " + + username");
         String userEmail = jwtService.extractUsername(refreshTokenRequest.getToken());

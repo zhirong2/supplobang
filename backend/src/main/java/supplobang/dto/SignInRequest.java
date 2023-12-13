@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SignInRequest {
     
-    @NotNull(message = "email should not be null")
+    @NotNull(message = "Email should not be null")
     @Email
     private String email;
 

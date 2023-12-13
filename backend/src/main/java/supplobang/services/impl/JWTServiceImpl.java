@@ -16,6 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import supplobang.exceptions.JwtAuthenticationException;
 import supplobang.services.JWTService;
 
 @Service

@@ -7,22 +7,15 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class SignUpRequest {
-    
+public class UpdateUserRequest {
+
     @NotNull(message = "Username should not be null")
     @Size(max = 25)
     private String username;
 
-    @NotNull(message = "Password should not be null")
-    private String password;
-
     @NotNull
     @Pattern(regexp = "^[89]\\d{7}$", message = "Please provide a valid phone number starting with 8 or 9")
     private String phoneNumber;
-
-    @NotNull(message = "Email should not be null")
-    @Email
-    private String email;
 
     @NotNull(message = "StreeName should not be null")
     @Size(max = 25)
@@ -39,4 +32,5 @@ public class SignUpRequest {
     @NotNull(message = "PostalCode should not be null")
     @Size(min = 6, max = 6)
     private String postalCode;
+    
 }

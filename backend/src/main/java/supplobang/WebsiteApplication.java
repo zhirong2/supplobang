@@ -14,8 +14,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import io.jsonwebtoken.security.Keys;
+import supplobang.entities.Brand;
+import supplobang.entities.Category;
 import supplobang.entities.Role;
 import supplobang.entities.User;
+import supplobang.repository.BrandRepository;
+import supplobang.repository.CategoryRepository;
 import supplobang.repository.UserRepository;
 
 // @EnableJpaRepositories(basePackages = "supplobang.repository")
@@ -24,6 +28,12 @@ import supplobang.repository.UserRepository;
 public class WebsiteApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired 
+	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private BrandRepository brandRepository;
 	public static void main(String[] args) {
 
 		SpringApplication.run(WebsiteApplication.class, args);
@@ -31,6 +41,7 @@ public class WebsiteApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
 		User adminAccount = userRepository.findByRole((Role.ADMIN));
 		if(adminAccount == null){
 			User admin = new User();
@@ -65,6 +76,15 @@ public class WebsiteApplication implements CommandLineRunner {
 
         // System.out.println("Generated Secret Key: " + base64EncodedKey); // Print the generated secret key
 
+		for(int i = 1; i <= 5; i++){
+			Category category = new Category();
+			category.setCategoryName("category " + i);
+			categoryRepository.save(category);
+
+			Brand brand = new Brand();
+			brand.setBrandName("brand " + i);
+			brandRepository.save(brand);
+		}
 	}
 
 }

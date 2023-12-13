@@ -2,13 +2,17 @@ POST http://localhost:8080/signup
 Content-Type: application/json
 
 {
-    "firstName" : "zhi",
-    "lastName" : "rong",
-    "email" : "user@gmail.com",
-    "password" : "password"
+    "username" : "jana",
+    "email" : "jana@gmail.com",
+    "password" : "password",
+    "phoneNumber" : "81234567",
+    "streetName" : "punggol",
+    "blockNumber" : "632A",
+    "unitNumber" :  "17-653",
+    "postalCode" : "123456"
 }
 
-####
+#### #### 
 POST http://localhost:8080/signin
 Content-Type: application/json
 
@@ -26,6 +30,9 @@ Content-Type: application/json
     "password" : "supplobang"
 }
 
+@adminAuthToken = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBwbG9iYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcwMjQ0NjM2MCwiZXhwIjoxNzAyNDQ3ODAwfQ.fWm1VV6_2be3rx5KsZ57T-IlvNJpH8CWgreDqdYgd5s
+
+
 ####
 POST http://localhost:8080/refresh
 Content-Type: application/json
@@ -36,8 +43,114 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/v1/user
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcwMjAxMTY3MCwiZXhwIjoxNzAyMDEzMTEwfQ.W96Xzob6fN5eAeDRjQHezUDTMoEvf2I_BYsMOfbiBSY
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcwMjEzMzc1OSwiZXhwIjoxNzAyMTM1MTk5fQ.QcSK73nyv6fMeLm8-kFZqJnZATa4CFtDsxD3RMLhTuc
 
 ####
 GET http://localhost:8080/api/v1/admin
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBwbG9iYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcwMjAwOTQ0OCwiZXhwIjoxNzAyMDEwODg4fQ.G_EMyutGBWQ4yBMDga8D651pGngIieLyLW8ZS79pIZM
+Authorization: Bearer {{adminAuthToken}}
+
+####
+POST http://localhost:8080/category/admin
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "categoryName" : "new category10"
+}
+
+####
+PUT http://localhost:8080/category/admin/1
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "categoryName" : "new category6"
+}
+
+####
+DELETE http://localhost:8080/category/admin/1
+Authorization: Bearer {{adminAuthToken}}
+
+###
+GET http://localhost:8080/category
+
+####
+POST http://localhost:8080/brand/admin/1
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "brandName" : "new brand 2"
+}
+
+####
+PUT http://localhost:8080/brand/admin/1
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "brandName" : "new brand 6"
+}
+####
+DELETE http://localhost:8080/brand/admin/1
+Authorization: Bearer {{adminAuthToken}}
+
+####
+POST http://localhost:8080/product/admin
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "category" : "category 1",
+    "brand" : "brand 2",
+    "productName" : "product 1",
+    "description" : "this is a good product",
+    "totalQuantity" : 8,
+    "flavourDtos" : [
+        {
+            "flavourName" : "flavour 1",
+            "price" : 5.99,
+            "flavourQuantity" : 10,
+            "productName" : "product 1"
+        },
+
+        {
+            "flavourName" : "flavour 2",
+            "price" : 18,
+            "flavourQuantity" : 20,
+            "productName" : "product 1"
+        }
+    ]
+}
+
+###
+GET http://localhost:8080/product/1
+Authorization: Bearer {{adminAuthToken}}
+
+###
+POST http://localhost:8080/product/admin
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "category" : "category 1",
+    "brand" : "brand 2",
+    "productName" : "product 2",
+    "description" : "this is a good product",
+    "totalQuantity" : 8,
+    "flavourDtos" : [
+        {
+            "flavourName" : "flavour 1",
+            "price" : 5.99,
+            "flavourQuantity" : 10,
+            "productName" : "product 1"
+        },
+
+        {
+            "flavourName" : "flavour 2",
+            "price" : 18,
+            "flavourQuantity" : 20,
+            "productName" : "product 1"
+        }
+    ]
+}

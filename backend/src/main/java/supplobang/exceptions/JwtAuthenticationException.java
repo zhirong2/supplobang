@@ -1,4 +1,4 @@
-package supplobang.services.impl;
+package supplobang.exceptions;
 
 import io.jsonwebtoken.JwtException;
 
