@@ -30,7 +30,7 @@ Content-Type: application/json
     "password" : "supplobang"
 }
 
-@adminAuthToken = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBwbG9iYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcwMjQ0NjM2MCwiZXhwIjoxNzAyNDQ3ODAwfQ.fWm1VV6_2be3rx5KsZ57T-IlvNJpH8CWgreDqdYgd5s
+@adminAuthToken = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBwbG9iYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcwMjQ3NjE0NiwiZXhwIjoxNzAyNDc3NTg2fQ.N04HOIUkjQ-0ifE5mApaXMuoXDTo8qWKKgQZc4DhSUs
 
 
 ####
@@ -154,3 +154,40 @@ Content-Type: application/json
         }
     ]
 }
+
+####
+PUT http://localhost:8080/product/admin/1
+Authorization: Bearer {{adminAuthToken}}
+Content-Type: application/json
+
+{
+    "category" : "category 5",
+    "brand" : "brand 5",
+    "productName" : "product 5",
+    "description" : "this is a bad product",
+    "flavourDtos" : [
+        {
+            "id" : 1,
+            "flavourName" : "flavour 1",
+            "price" : 5.99,
+            "flavourQuantity" : 20,
+            "productName" : "product 1"
+        },
+
+        {   
+            "flavourName" : "flavour 3",
+            "price" : 20,
+            "flavourQuantity" : 1000,
+            "productName" : "product 1"
+        }
+    ]
+}
+
+####
+GET http://localhost:8080/product/1/flavours
+
+####
+GET http://localhost:8080/product/1
+
+####
+GET http://localhost:8080/product

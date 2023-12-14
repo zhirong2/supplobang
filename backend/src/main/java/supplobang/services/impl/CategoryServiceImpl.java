@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import supplobang.repository.CategoryRepository;
+import supplobang.services.CategoryService;
 import supplobang.dto.CategoryDto;
+import supplobang.dto.ProductDto;
 import supplobang.entities.Category;
 import supplobang.entities.Product;
 import supplobang.exceptions.CategoryAlreadyExistsException;
 import supplobang.exceptions.CategoryNotFoundException;
-import supplobang.repository.CategoryRepository;
-import supplobang.services.CategoryService;
 
 @Service
 @Transactional
@@ -43,6 +44,16 @@ public class CategoryServiceImpl implements CategoryService{
     public Category getCategoryByName(String categoryName){
         return categoryRepository.findByCategoryName(categoryName)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryName + " not found"));
+    }
+    
+    @Override
+    public List<ProductDto> getAllProductByCategory(String categoryName){
+        Category category = getCategoryByName(categoryName);
+        return category.getProducts().stream()
+                .map(product -> {
+                    return product.getProductDto();
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -29,16 +29,15 @@ public class Flavour {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public FlavourDto getFlavourDto(){
+    public FlavourDto convertToFlavourDto(){
         FlavourDto flavourDto = new FlavourDto();
         
         flavourDto.setId(id);
         flavourDto.setFlavourName(flavourName);
         flavourDto.setPrice(price);
         flavourDto.setFlavourQuantity(flavourQuantity);
-        flavourDto.setProductName(product.getProductName());
+        flavourDto.setProduct_id(product.getId());
 
         return flavourDto;
     }
-
 }

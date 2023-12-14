@@ -16,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import lombok.Data;
 import supplobang.dto.FlavourDto;
 import supplobang.dto.ProductDto;
@@ -44,9 +43,6 @@ public class Product {
 
     private String description;
 
-    @Min(value = 0)
-    private int totalQuantity;
-
     @JsonIgnore
     @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Flavour> flavours;
@@ -58,8 +54,11 @@ public class Product {
         productDto.setBrand(brand.getBrandName());
         productDto.setProductName(productName);
         productDto.setDescription(description);
-        productDto.setTotalQuantity(totalQuantity);
-        List<FlavourDto> flavourDtos = flavours.stream().map(flavours -> flavours.getFlavourDto()).collect(Collectors.toList());
+        List<FlavourDto> flavourDtos = flavours.stream().map(flavours -> flavours.convertToFlavourDto()).collect(Collectors.toList());
+        // Get the total quantity
+        productDto.setTotalQuantity(flavours.stream()
+                .mapToInt(Flavour::getFlavourQuantity)
+                .sum());
         productDto.setFlavourDtos(flavourDtos);
         
         return productDto;

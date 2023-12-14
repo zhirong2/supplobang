@@ -14,13 +14,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import io.jsonwebtoken.security.Keys;
+import supplobang.repository.BrandRepository;
+import supplobang.repository.CategoryRepository;
+import supplobang.repository.UserRepository;
 import supplobang.entities.Brand;
 import supplobang.entities.Category;
 import supplobang.entities.Role;
 import supplobang.entities.User;
-import supplobang.repository.BrandRepository;
-import supplobang.repository.CategoryRepository;
-import supplobang.repository.UserRepository;
 
 // @EnableJpaRepositories(basePackages = "supplobang.repository")
 // @EntityScan(basePackages = "supplobang.entities")

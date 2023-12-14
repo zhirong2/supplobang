@@ -25,9 +25,9 @@ public class ProductDto {
     @NotNull(message = "Description should not be null")
     private String description;
 
-    @Min(value = 0, message = "Total quantity must be a positive number")
     private int totalQuantity;
 
+    @NotNull
     @Size(min = 1, message = "At least one flavour must be specified")
     private List<FlavourDto> flavourDtos;
     

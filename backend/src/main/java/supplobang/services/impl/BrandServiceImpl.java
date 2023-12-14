@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import supplobang.repository.BrandRepository;
+import supplobang.services.BrandService;
 import supplobang.dto.BrandDto;
+import supplobang.dto.ProductDto;
 import supplobang.entities.Brand;
 import supplobang.exceptions.BrandAlreadyExistException;
 import supplobang.exceptions.BrandNotFoundException;
-import supplobang.repository.BrandRepository;
-import supplobang.services.BrandService;
 
 @Service
 @Transactional
@@ -30,6 +31,16 @@ public class BrandServiceImpl implements BrandService {
         
         })
         .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getAllProductByBrand(String brandName){
+        Brand brand = getBrandByName(brandName);
+        return brand.getProducts().stream()
+                .map(product -> {
+                    return product.getProductDto();
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

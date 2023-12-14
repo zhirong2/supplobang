@@ -19,7 +19,6 @@ public class FlavourDto {
     @Min(value = 0 , message = "Flavour quantity must be a positive number")
     private int flavourQuantity;
 
-    @NotNull(message = "Product name cannot be null")
-    private String productName;
+    private Long product_id;
     
 }

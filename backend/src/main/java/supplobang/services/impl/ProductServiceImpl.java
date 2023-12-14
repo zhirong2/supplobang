@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import supplobang.repository.ProductRepository;
+import supplobang.services.BrandService;
+import supplobang.services.CategoryService;
+import supplobang.services.FlavourService;
+import supplobang.services.ProductService;
+import supplobang.dto.FlavourDto;
 import supplobang.dto.ProductDto;
 import supplobang.entities.Brand;
 import supplobang.entities.Category;
@@ -15,11 +21,6 @@ import supplobang.entities.Flavour;
 import supplobang.entities.Product;
 import supplobang.exceptions.ProductAlreadyExistsException;
 import supplobang.exceptions.ProductNotFoundException;
-import supplobang.repository.ProductRepository;
-import supplobang.services.BrandService;
-import supplobang.services.CategoryService;
-import supplobang.services.FlavourService;
-import supplobang.services.ProductService;
 
 @Service
 @Transactional
@@ -27,6 +28,7 @@ import supplobang.services.ProductService;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
     private final BrandService brandService;
     private final CategoryService categoryService;
     private final FlavourService flavourService;
@@ -47,6 +49,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<FlavourDto> getAllFlavourInProduct(Long product_id){
+        Product product = getProductById(product_id);
+        return product.getFlavours().stream()
+                .map(flavour ->  {
+                    return flavour.convertToFlavourDto();
+                })
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<ProductDto> getAllProductContaining(String productName){
+        return productRepository.findAllByProductNameContaining(productName).stream()
+                .map(product ->{
+                    return product.getProductDto();
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Product getProductById(Long id){
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("product with id: " + id + " is not found"));
+    }
+
+    public Product getProductByIdOrNull(Long id){
+        return productRepository.findById(id)
+                .orElse(null);
+    }
+
+    @Override
     public ProductDto createProduct(ProductDto productDto) {
         String categoryName = productDto.getCategory();
         String brandName = productDto.getBrand();
@@ -57,27 +90,20 @@ public class ProductServiceImpl implements ProductService {
         Brand brand = brandService.getBrandByName(brandName);
     
         // Check if product exists
-        validateProductExists(productName);
+        validateProductExistsByName(productName);
     
         Product product = new Product();
         product.setCategory(category);
         product.setBrand(brand);
         product.setProductName(productName);
         product.setDescription(productDto.getDescription());
-        product.setTotalQuantity(0);
+
     
         productRepository.save(product);
 
         // Converting FlavourDto to Flavour and associating them with the saved product
         List<Flavour> flavours = flavourService.createFlavours(productDto.getFlavourDtos(), product);
     
-        // Get the total quantity
-        int totalQuantity = flavours.stream()
-                .mapToInt(Flavour::getFlavourQuantity)
-                .sum();
-    
-        // Set total quantity and flavours for the product
-        product.setTotalQuantity(totalQuantity);
         product.setFlavours(flavours);
     
         // Save the updated product with associated flavours
@@ -100,26 +126,18 @@ public class ProductServiceImpl implements ProductService {
 
         //Ensure name is not used
         String updatedProductName = updatedProductDto.getProductName();
-        validateProductExists(updatedProductName);
 
-        // update 
-        List<Flavour> updatedFlavours = flavourService.updateFlavours(updatedProductDto.getFlavourDtos(), existingProduct);
-    
-        // Calculate the total quantity from updated flavours
-        int updatedTotalQuantity = updatedFlavours.stream()
-                .mapToInt(Flavour::getFlavourQuantity)
-                .sum();
-    
+        flavourService.updateFlavours(updatedProductDto.getFlavourDtos(), existingProduct);
+
         // Update the existing product with the new information
         existingProduct.setCategory(category);
         existingProduct.setBrand(brand);
         existingProduct.setProductName(updatedProductName);
         existingProduct.setDescription(updatedProductDto.getDescription());
-        existingProduct.setTotalQuantity(updatedTotalQuantity);
-        existingProduct.setFlavours(updatedFlavours);
     
         // Save and return the updated product
-        return productRepository.save(existingProduct).getProductDto();
+        existingProduct = productRepository.save(existingProduct);
+        return existingProduct.getProductDto();
     }
 
     public String deleteProductById(long product_id) {
@@ -129,15 +147,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private void validateProductExists(String productName){
+    private void validateProductExistsByName(String productName){
         if(productRepository.findByProductName(productName).isPresent()){
             throw new ProductAlreadyExistsException(productName +" already exist");
         }
     }
 
-    private Product getProductById(Long id){
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("product with id: " + id + " is not found"));
-    }
+
 
 }

@@ -1,7 +1,5 @@
 package supplobang.exceptions;
 
-import io.jsonwebtoken.JwtException;
-
 public class JwtAuthenticationException extends RuntimeException {
 
     public JwtAuthenticationException(String message) {

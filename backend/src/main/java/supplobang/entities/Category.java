@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
-
 import supplobang.dto.CategoryDto;
 
 @Entity
@@ -37,7 +36,6 @@ public class Category {
 
     public CategoryDto convertToCategoryDto(){
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(id);
         categoryDto.setCategoryName(categoryName);
         return categoryDto;
     }

@@ -1,6 +1,6 @@
 package supplobang.services.impl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import supplobang.repository.FlavourRepository;
+import supplobang.services.FlavourService;
 import supplobang.dto.FlavourDto;
 import supplobang.entities.Flavour;
 import supplobang.entities.Product;
-import supplobang.repository.FlavourRepository;
-import supplobang.services.FlavourService;
+import supplobang.exceptions.FlavourNotFoundException;
 
 @Service
 @Transactional
@@ -20,8 +21,19 @@ import supplobang.services.FlavourService;
 public class FlavourServiceImpl implements FlavourService{
     private final FlavourRepository flavourRepository;
 
+    @Override
+    public Flavour getFlavourById(Long id){
+        return flavourRepository.findById(id)
+                .orElseThrow(() -> new FlavourNotFoundException("Flavour with id: " + id + " is not found"));
+    }
+
+    @Override
+    public Flavour getFlavourByIdOrNull(Long id){
+        return flavourRepository.findById(id)
+                .orElse(null);
+    }
     //create and save new flavours 
-    private Flavour createFlavour(FlavourDto flavourDto, Product product){
+    public Flavour createFlavour(FlavourDto flavourDto, Product product){
         Flavour flavour = new Flavour();
         flavour.setFlavourName(flavourDto.getFlavourName());
         flavour.setFlavourQuantity(flavourDto.getFlavourQuantity());
@@ -38,42 +50,33 @@ public class FlavourServiceImpl implements FlavourService{
                 .collect(Collectors.toList());
     }
 
-    public List<Flavour> updateFlavours(List<FlavourDto> flavourDtos, Product product) {
+    public void updateFlavours(List<FlavourDto> updatedFlavourDtos, Product product){
         List<Flavour> existingFlavours = product.getFlavours();
-        List<Flavour> updatedFlavours = new ArrayList<>();
-    
-        // Add New Flavors and Update Existing Flavors
-        for (FlavourDto flavourDto : flavourDtos) {
-            Flavour existingFlavour = getExistingFlavourById(existingFlavours, flavourDto.getId());
-    
-            if (existingFlavour == null) {
-                // Flavor doesn't exist, create and add a new one
-                updatedFlavours.add(createFlavour(flavourDto, product));
-            } else {
-                // Flavor exists, update its details
+
+        //add new flavours or update existing flavour
+        for(FlavourDto flavourDto : updatedFlavourDtos){
+
+            Flavour existingFlavour = getExistingFlavour(flavourDto.getId(), existingFlavours);
+
+            if(existingFlavour == null){
+                Flavour newFlavour = createFlavour(flavourDto, product);
+                existingFlavours.add(newFlavour);
+            }else{
                 existingFlavour.setFlavourName(flavourDto.getFlavourName());
                 existingFlavour.setFlavourQuantity(flavourDto.getFlavourQuantity());
                 existingFlavour.setPrice(flavourDto.getPrice());
-                updatedFlavours.add(flavourRepository.save(existingFlavour));
             }
         }
-    
-        // Delete Removed Flavors
-        List<Flavour> flavoursToDelete = existingFlavours.stream()
-                .filter(flavour -> flavourDtos.stream().noneMatch(dto -> dto.getId() == flavour.getId()))
-                .collect(Collectors.toList());
-    
-        flavourRepository.deleteAll(flavoursToDelete);
-        
-        // Return the updated list of flavours
-        return updatedFlavours;
+
+        existingFlavours.removeIf(flavour -> updatedFlavourDtos.stream().noneMatch(dto -> dto.getId() == flavour.getId()));
+
     }
     
-    //check if flavour exist in the product
-    private Flavour getExistingFlavourById(List<Flavour> existingFlavours, Long flavour_id){
+    private Flavour getExistingFlavour(Long flavour_id, List<Flavour> existingFlavours) {
         return existingFlavours.stream()
                 .filter(flavour -> flavour.getId() == flavour_id)
                 .findFirst()
                 .orElse(null);
     }
+    
 }

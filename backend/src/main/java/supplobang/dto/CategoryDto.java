@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class CategoryDto {
 
-    private long id;
-
     @NotNull(message = "Category cannot be null")
     private String categoryName;
     

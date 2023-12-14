@@ -33,7 +33,6 @@ public class Brand {
     
     public BrandDto convertToBrandDto(){
         BrandDto brandDto = new BrandDto();
-        brandDto.setId(id);
         brandDto.setBrandName(brandName);
         return brandDto;
     }
