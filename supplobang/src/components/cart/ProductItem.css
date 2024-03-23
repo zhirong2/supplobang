@@ -1,0 +1,77 @@
+.cart-item {
+  display: flex;
+  align-items: flex-start; /* Adjust alignment */
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.cart-item-image {
+  max-width: 300px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item-name {
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  max-width: 150px; /* Adjusted width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-item-flavor {
+  width: 120px; /* Adjusted width */
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  max-width: 120px; /* Set max width to the same as the width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc; /* Adding border */
+  max-width: fit-content; /* Adjusting width to fit content */
+}
+
+.quantity-control > * {
+  font-size: 14px;
+  cursor: pointer;
+  padding: 3px;
+  transition: color 0.3s;
+}
+
+.quantity-icon:hover {
+  color: rgba(0, 0, 255, 0.603);
+  background-color: #000000; /* Changing background on hover */
+}
+
+.quantity-icon {
+  border: 1px solid #ccc;
+}
+
+.quantity-value {
+  font-size: 12px; /* Reduced font size */
+  margin: 0 5px;
+}
+
+.cart-item-price {
+  font-weight: bold;
+  align-self: flex-end; /* Align to the bottom right corner */
+  font-size: 14px; /* Adjust font size */
+}

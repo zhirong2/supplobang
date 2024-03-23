@@ -1,0 +1,50 @@
+/* Search Bar Popup Component */
+.search-bar {
+    position: relative;
+  }
+  
+  /* Search Button */
+  .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Search Input */
+  .search-input {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 50px; /* Adjust top position as needed */
+    right: 10px; /* Adjust right position as needed */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .search-input.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .search-indicator {
+    margin-right: 5px;
+    color: #999;
+  }
+  
+  input[type='text'] {
+    border: none;
+    outline: none;
+  }
+  
+  /* Close Search Button */
+  .close-search {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
