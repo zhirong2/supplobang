@@ -1,0 +1,144 @@
+.cart-slider {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%; 
+    width: 400px;
+    background-color: white;
+    z-index: 999;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    border-bottom: 2px solid black;
+  }
+  
+
+  .close-cart {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+    font-size: 1.5rem;
+  }
+
+  .background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2); /* Adjust opacity as needed */
+    backdrop-filter: blur(5px); /* Adjust the blur intensity as needed */
+    z-index: 997; /* Set z-index lower than the cart slider */
+    pointer-events: none; /* Allow clicks to pass through */
+  }
+  
+  
+/* Cart Items */
+.cart-items {
+  overflow-y: auto;
+  flex-grow: 1;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0); /* Adjust colors as needed */
+}
+  
+  /* Cart Item */
+  .cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  /* Track */
+.cart-items::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+
+/* Handle */
+.cart-items::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* Color of the scrollbar handle */
+  border-radius: 4px; /* Rounded corners for the handle */
+}
+
+/* Handle on hover */
+.cart-items::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar handle on hover */
+}
+  
+  /* Cart Item Image */
+  .cart-item-image {
+    width: 80px; /* Adjust as needed */
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  /* Cart Item Details */
+  .cart-item-details {
+    color:black;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  /* Cart Item Name */
+  .cart-item-name {
+    font-weight: bold;
+  }
+  
+  /* Cart Item Price */
+  .cart-item-price {
+    margin-left: auto;
+    font-weight: bold;
+  }
+  
+  
+  .cart-total {
+    display: block; /* Ensures the element occupies the full width */
+    padding: 10px;
+    background-color: white;
+    margin-top: auto;
+    position: sticky;
+    bottom: 3px; /* Adjust as needed */
+    border-top: 2px solid black; /* Add a border at the top */
+  }
+  
+  
+  .total-detail {
+    color: black;
+  }
+
+  .checkout-button {
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold;
+    padding: 10px 20px; /* Adjust padding for the button */
+    width: 100%; /* Button expands to the width of its container */
+    background-color: #f0f0f0; /* Change the background color as needed */
+    color: black; /* Set the default text color */
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s; /* Add transition effects */
+    outline: none; /* Removes the default button outline */
+    position: relative;
+    overflow: hidden;
+    transform: skewX(-15deg); /* Skew the button container */
+  }
+  
+  .checkout-button span {
+    display: block;
+    transform: skewX(15deg); /* Opposite skew for the text */
+  }
+  
+  .checkout-button:hover {
+    color: white; /* Change text color on hover */
+    background-color: blue; /* Change background color on hover */
+  }
+  

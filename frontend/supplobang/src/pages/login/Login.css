@@ -1,0 +1,91 @@
+/* Updated CSS */
+.centered-login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh; /* Occupies 100% of the vertical space */
+    width: 100%; /* Full width */
+    position: relative;
+    background-color: #222; /* Dark background color */
+    color: #fff; /* Text color */
+    font-family: Arial, sans-serif;
+    padding-top: 50px;
+  }
+
+  .login-header {
+    margin-bottom: 50px; /* Add margin to align with email input */
+    text-align: left;
+  }
+  
+  /* Form and content styles */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-label {
+    font-size: 14px;
+  }
+  
+  .input-field {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #333; /* Dark input field background color */
+    color: #fff; /* Input text color */
+  }
+  
+  .forgot-password {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    text-align: right;
+    cursor: pointer;
+  }
+  
+  .login-button,
+  .create-account-button {
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button {
+    background-color: #007bff; /* Login button color */
+    color: #fff;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3; /* Hover color */
+  }
+  
+  .create-account-button {
+    background-color: #28a745; /* Create account button color */
+    color: #fff;
+  }
+  
+  .create-account-button:hover {
+    background-color: #218838; /* Hover color */
+  }
+  
+  .error {
+    border: 1px solid #ff0000; /* Error border color */
+  }
+  
+  .error-message {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  

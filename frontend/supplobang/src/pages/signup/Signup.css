@@ -1,0 +1,77 @@
+/* Signup.css */
+.centered-signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh; /* Occupies 100% of the vertical space */
+    width: 100%; /* Full width */
+    position: relative;
+    background-color: #222; /* Dark background color */
+    color: #fff; 
+    font-family: Arial, sans-serif;
+    padding-top: 50px;
+  }
+  
+/* Header */
+.signup-header {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* Input field styling */
+.input-label {
+    margin-bottom: 5px;
+}
+
+.input-field {
+    background-color: #333; /* Darker background for fields */
+    color: #fff; /* Text color */
+    border: 1px solid #fff; /* White border for fields */
+    padding: 8px;
+    border-radius: 4px;
+    transition: border 0.3s ease; /* Smooth transition for border */
+}
+
+/* Border color for selected/focused field */
+.input-field:focus {
+    border: 2px solid #fff; /* Thicker border on focus */
+}
+
+/* Error message styling */
+.error-message {
+    color: #ff3333; /* Error message color */
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+/* Signup button */
+.signup-button {
+    background-color: #4CAF50; /* Green button color */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for button color */
+}
+
+.signup-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+  
